@@ -79,3 +79,17 @@ cd ~/environment
 git clone https://github.com/aws-containers/ecsdemo-platform
 git clone https://github.com/aws-containers/ecsdemo-frontend
 git clone https://github.com/aws-containers/ecsdemo-nodejs
+
+aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"
+
+aws iam get-role --role-name "AWSServiceRoleForECS" || aws iam create-service-linked-role --aws-service-name "ecs.amazonaws.com"
+
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+sudo yum install -y session-manager-plugin.rpm
+session-manager-plugin
+
+cd ~/environment/ecsdemo-platform/cdk
+
+cdk synth
+
+cdk deploy --require-approval never
